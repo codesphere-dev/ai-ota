@@ -1,0 +1,14 @@
+[package]
+name = "ota-delta"
+description = "Delta generation and application (diff/patch) for model artifacts"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+keywords = ["ota", "delta", "binary"]
+categories = ["compression"]
+
+[lints]
+workspace = true

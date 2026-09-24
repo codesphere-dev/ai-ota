@@ -1,0 +1,14 @@
+[package]
+name = "ota-boot"
+description = "Bootloader-side package verification and install logic"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+keywords = ["ota", "bootloader", "firmware"]
+categories = ["embedded", "no-std"]
+
+[lints]
+workspace = true

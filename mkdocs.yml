@@ -1,0 +1,145 @@
+site_name: ai-ota
+site_description: Documentation ai-ota, plateforme OTA pour firmware et modèles embarqués
+site_url: https://codesphere-dev.github.io/ai-ota/
+repo_url: https://github.com/codesphere-dev/ai-ota
+edit_uri: edit/main/docs/
+docs_dir: docs
+
+theme:
+  name: material
+  language: fr
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - toc.follow
+    - content.code.copy
+  palette:
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Mode sombre
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Mode clair
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.details
+
+plugins:
+  - search
+
+nav:
+  - Accueil: index.md
+
+  - Ingénierie:
+      - Index: engineering/index.md
+      - API:
+          - Index: engineering/api/index.md
+          - CLI: engineering/api/cli/index.md
+          - Python: engineering/api/python/index.md
+          - Transport: engineering/api/transport/index.md
+      - Architecture:
+          - Index: engineering/architecture/index.md
+          - ADR: engineering/architecture/adr/index.md
+          - Modèles C4:
+              - Index: engineering/architecture/c4/index.md
+              - Code: engineering/architecture/c4/code/index.md
+              - Composants: engineering/architecture/c4/components/index.md
+          - Dispositif: engineering/architecture/device/index.md
+          - Noyau OTA: engineering/architecture/ota-core/index.md
+          - Pipeline: engineering/architecture/pipeline/index.md
+      - Données:
+          - Index: engineering/data/index.md
+          - Flotte: engineering/data/fleet/index.md
+          - Modèles: engineering/data/models/index.md
+          - Paquets: engineering/data/packages/index.md
+      - Conception:
+          - Index: engineering/design/index.md
+          - Agent dispositif: engineering/design/device-agent/index.md
+          - Serveur: engineering/design/server/index.md
+      - Exploitation:
+          - Index: engineering/operations/index.md
+          - Déploiement: engineering/operations/deployment/index.md
+          - Observabilité: engineering/operations/observability/index.md
+          - Runbooks: engineering/operations/runbooks/index.md
+      - Exigences: engineering/requirements/index.md
+      - Sécurité:
+          - Index: engineering/security/index.md
+          - Signature: engineering/security/signing/index.md
+          - Chaîne d'approvisionnement: engineering/security/supply-chain/index.md
+      - Normes: engineering/standards/index.md
+      - Tests: engineering/tests/index.md
+
+  - Explications:
+      - Index: explanation/index.md
+      - FAQ: explanation/faq.md
+      - Pourquoi ai-ota: explanation/why-ai-ota.md
+      - Architecture: explanation/architecture/index.md
+      - Comparaisons: explanation/comparisons/index.md
+      - Concepts: explanation/concepts/index.md
+      - Décisions de conception: explanation/design-decisions/index.md
+      - Sécurité: explanation/security/index.md
+
+  - Guides pratiques:
+      - Index: how_to_guides/index.md
+      - Campagne: how_to_guides/campaign/index.md
+      - Développement: how_to_guides/dev/index.md
+      - Dispositif: how_to_guides/device/index.md
+      - Flotte: how_to_guides/fleet/index.md
+      - Observabilité: how_to_guides/observability/index.md
+      - Packaging: how_to_guides/packaging/index.md
+      - Récupération: how_to_guides/recovery/index.md
+      - Reproductibilité: how_to_guides/reproducibility/index.md
+      - Sécurité: how_to_guides/security/index.md
+      - Tests: how_to_guides/testing/index.md
+      - Transport: how_to_guides/transport/index.md
+      - Mise à jour: how_to_guides/update/index.md
+
+  - Référence:
+      - Index: reference/index.md
+      - Annexes: reference/appendices/index.md
+      - CLI: reference/cli/index.md
+      - Configuration: reference/configuration/index.md
+      - Erreurs: reference/errors/index.md
+      - Formats: reference/formats/index.md
+      - Glossaire: reference/glossary/index.md
+      - Python:
+          - Index: reference/python/index.md
+          - Agent dispositif: reference/python/device-agent/index.md
+          - Packaging: reference/python/packaging/index.md
+          - SDK serveur: reference/python/server-sdk/index.md
+      - Exigences: reference/requirements/index.md
+      - Schémas: reference/schemas/index.md
+      - Normes: reference/standards/index.md
+      - Tests: reference/tests/index.md
+
+  - Tutoriels:
+      - Index: tutorials/index.md
+      - Annexes: tutorials/appendices/index.md
+      - Intégration CI/CD: tutorials/ci-cd-integration/index.md
+      - Onboarding dispositif: tutorials/device-onboarding/index.md
+      - Sécurité de bout en bout: tutorials/end-to-end-security/index.md
+      - Première campagne: tutorials/first-campaign/index.md
+      - Première mise à jour OTA: tutorials/first-ota-update/index.md
+      - Premier rollback: tutorials/first-rollback/index.md
+      - Validation HIL: tutorials/hil-validation/index.md
+      - Flotte multi-cibles: tutorials/multi-target-fleet/index.md
+      - Préparation production: tutorials/production-readiness/index.md
+      - Quickstart: tutorials/quickstart/index.md
+      - Reproductibilité: tutorials/reproducibility/index.md
+      - Transport en profondeur: tutorials/transport-deep-dive/index.md

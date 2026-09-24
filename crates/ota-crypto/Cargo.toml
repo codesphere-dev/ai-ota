@@ -1,0 +1,14 @@
+[package]
+name = "ota-crypto"
+description = "Signing, hashing and verification primitives for secure updates"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+keywords = ["ota", "crypto", "signature"]
+categories = ["cryptography", "embedded"]
+
+[lints]
+workspace = true

@@ -1,0 +1,115 @@
+[workspace]
+resolver = "2"
+members = [
+  # libraries
+  "crates/ota-core",
+  "crates/ota-package",
+  "crates/ota-crypto",
+  "crates/ota-delta",
+  "crates/ota-hal",
+  "crates/ota-transport",
+  "crates/ota-agent",
+  "crates/ota-boot",
+  "crates/ota-server",
+  "crates/ota-api",
+  "crates/ota-python",
+  # binaries
+  "apps/ota-cli",
+  "apps/ota-server",
+  "apps/ota-agent",
+  # development tooling
+  "xtask",
+]
+exclude = ["firmware"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.98"
+license = "GPL-3.0-only"
+repository = "https://github.com/codesphere-dev/ai-ota"
+homepage = "https://github.com/codesphere-dev/ai-ota"
+authors = ["Synobotix"]
+readme = "README.md"
+description = "OTA updates for embedded AI models, from training artifact to deployed fleet"
+keywords = ["ota", "embedded", "firmware", "model", "mcu"]
+categories = ["embedded", "development-tools", "network-programming"]
+
+[workspace.dependencies]
+# ── core ──────────────────────────────────────────────
+serde = { version = "1.0", default-features = false, features = ["derive"] }
+serde_json = { version = "1.0", default-features = false }
+thiserror = { version = "1.0", default-features = false }
+crc32fast = "1.4"
+
+# ── crypto ────────────────────────────────────────────
+ed25519-dalek = { version = "2.1", default-features = false, features = ["alloc", "zeroize"] }
+signature = { version = "2.2", default-features = false }
+p256 = { version = "0.13", default-features = false, features = ["ecdsa"] }
+rsa = { version = "0.9", default-features = false }
+zeroize = { version = "1.8", features = ["zeroize_derive"] }
+sha2 = { version = "0.10", default-features = false }
+pkcs11 = { version = "0.5", default-features = false }
+
+# ── delta / compression ───────────────────────────────
+zstd = { version = "0.13", default-features = false }
+bsdiff = { version = "0.2", default-features = false }
+
+# ── async runtime (server / agent Linux only) ─────────
+tokio = { version = "1.37", features = ["rt-multi-thread", "macros", "signal", "sync"] }
+axum = { version = "0.7", features = ["json", "macros"] }
+
+# ── observability ─────────────────────────────────────
+tracing = { version = "0.1", default-features = false }
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# ── CLI / apps ─────────────────────────────────────
+clap = { version = "4.5", features = ["derive", "wrap_help", "suggestions"] }
+anyhow = "1.0"
+toml = "0.8"
+
+# ── hardware abstraction ──────────────────────────
+embedded-hal = "1.0"
+
+# ── Python bindings (ota-python / PyO3) ───────────
+pyo3 = { version = "0.22", default-features = false }
+
+# ── dev ───────────────────────────────────────────────
+cargo_metadata = "0.18"
+proptest = "1.4"
+
+[workspace.lints.rust]
+unsafe_op_in_unsafe_fn = "deny"
+
+[workspace.lints.clippy]
+all = "deny"
+unwrap_used = "deny"
+expect_used = "deny"
+pedantic = { level = "warn", priority = -1 }
+
+[profile.dev]
+debug = 1
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+debug = "line-tables-only"
+strip = "debuginfo"
+panic = "unwind"
+
+# fw binaries are the ones you cannot fix post-deploy.
+[profile.release.package."ota-boot"]
+opt-level = "s"
+codegen-units = 1
+overflow-checks = true
+
+[profile.release.package."ota-agent"]
+opt-level = "s"
+codegen-units = 1
+
+[profile.release.package."ota-package"]
+opt-level = "s"
+
+[profile.release.package."ota-transport"]
+opt-level = "s"

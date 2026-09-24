@@ -1,0 +1,9 @@
+msrv = "1.98"
+
+# Fabrication of lint threshold tuning
+too-many-arguments-threshold = 7
+type-complexity-threshold = 250
+cognitive-complexity-threshold = 25
+
+# no_std crates must not pull std-dependent machinery
+avoid-breaking-exported-api = false

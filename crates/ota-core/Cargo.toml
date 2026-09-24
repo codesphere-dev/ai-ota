@@ -1,0 +1,14 @@
+[package]
+name = "ota-core"
+description = "Core types, versioning and primitives shared by all OTA crates"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+keywords = ["ota", "embedded", "firmware"]
+categories = ["embedded"]
+
+[lints]
+workspace = true

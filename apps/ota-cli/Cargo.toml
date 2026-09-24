@@ -1,0 +1,14 @@
+[package]
+name = "ota-cli"
+description = "The ai-ota command-line interface"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+keywords = ["ota", "cli"]
+categories = ["command-line-utilities"]
+
+[lints]
+workspace = true

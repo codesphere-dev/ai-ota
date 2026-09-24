@@ -1,0 +1,14 @@
+[package]
+name = "ota-transport"
+description = "Device<->server transport (MQTT/TLS, MQTT-SN, HTTP) for the OTA channel"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+keywords = ["ota", "mqtt", "transport"]
+categories = ["network-programming", "embedded"]
+
+[lints]
+workspace = true

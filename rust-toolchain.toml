@@ -1,0 +1,13 @@
+[toolchain]
+channel = "1.98.1"
+profile = "minimal"
+components = ["clippy", "rustfmt"]
+targets = [
+  "thumbv7em-none-eabihf",        # STM32H7, nRF52840
+  "thumbv6m-none-eabi",           # RP2040 (Cortex-M0+)
+  "riscv32imac-unknown-none-elf", # ESP32-C3
+  "aarch64-unknown-linux-gnu",    # i.MX8, RPi CM4
+  "aarch64-unknown-linux-musl",
+  "riscv64gc-unknown-linux-gnu",
+  "x86_64-unknown-linux-gnu",
+]
