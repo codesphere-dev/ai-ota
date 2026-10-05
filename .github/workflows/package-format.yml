@@ -1,0 +1,112 @@
+name: package-format
+
+# Covers the acceptance criteria of issue #2 / ADR 0001 (.otapkg v1): the Rust package
+# crate and CLI, the PyO3 bindings, the golden-fixture cross-language parity, the RAM
+# budget regression guard, and the manifest JSON Schema. This is deliberately scoped to
+# that surface, not a full-repo CI pipeline — other crates aren't built here yet.
+
+on:
+  push:
+    paths:
+      - "crates/ota-package/**"
+      - "crates/ota-python/**"
+      - "apps/ota-cli/**"
+      - "python/ai_ota/packaging.py"
+      - "python/ai_ota/__init__.py"
+      - "python/tests/unit/test_golden_fixtures.py"
+      - "python/pyproject.toml"
+      - "docs/reference/schemas/manifest.schema.json"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - ".github/workflows/package-format.yml"
+  pull_request:
+    paths:
+      - "crates/ota-package/**"
+      - "crates/ota-python/**"
+      - "apps/ota-cli/**"
+      - "python/ai_ota/packaging.py"
+      - "python/ai_ota/__init__.py"
+      - "python/tests/unit/test_golden_fixtures.py"
+      - "python/pyproject.toml"
+      - "docs/reference/schemas/manifest.schema.json"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - ".github/workflows/package-format.yml"
+
+jobs:
+  rust:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+      - name: cargo fmt --check
+        run: cargo fmt --check -p ota-package -p ota-cli
+      - name: cargo clippy
+        run: cargo clippy -p ota-package -p ota-cli
+      - name: cargo test (includes golden-fixture parity and RAM-budget tests)
+        run: cargo test -p ota-package -p ota-cli
+
+  python:
+    runs-on: ubuntu-latest
+    needs: rust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Warm up the pinned toolchain (rust-toolchain.toml)
+        # dtolnay/rust-toolchain@stable installs the "stable" channel; the repo pins
+        # 1.98.1 via rust-toolchain.toml, which rustup only auto-installs on first use.
+        # Forcing that here, in its own step, avoids maturin racing that auto-install
+        # inside its own subprocess (seen as "'rustc' is not installed for the
+        # toolchain" right after a fresh "downloading N components").
+        run: rustc --version && cargo --version
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Create virtualenv
+        run: python3 -m venv .venv
+      - name: Install maturin and pytest
+        run: source .venv/bin/activate && pip install "maturin>=1.5,<2" pytest
+      - name: Build and install the native extension
+        working-directory: python
+        run: source ../.venv/bin/activate && maturin develop --release
+      - name: pytest (golden-fixture parity)
+        run: source .venv/bin/activate && pytest python/tests/unit/test_golden_fixtures.py -v
+
+  schema:
+    runs-on: ubuntu-latest
+    needs: python
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Warm up the pinned toolchain (rust-toolchain.toml)
+        run: rustc --version && cargo --version
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Create virtualenv
+        run: python3 -m venv .venv
+      - name: Install maturin and check-jsonschema
+        run: source .venv/bin/activate && pip install "maturin>=1.5,<2" check-jsonschema
+      - name: Build and install the native extension
+        working-directory: python
+        run: source ../.venv/bin/activate && maturin develop --release
+      - name: Extract each fixture's manifest as JSON
+        run: |
+          source .venv/bin/activate
+          mkdir -p /tmp/manifests
+          python3 - <<'EOF'
+          import json
+          from ai_ota import packaging
+
+          for name in ("minimal", "delta", "full"):
+              parsed = packaging.inspect(f"crates/ota-package/tests/golden/v1/{name}.otapkg")
+              with open(f"/tmp/manifests/{name}.json", "w") as f:
+                  json.dump(parsed["manifest"], f)
+          EOF
+      - name: Validate against manifest.schema.json
+        run: |
+          source .venv/bin/activate
+          check-jsonschema --schemafile docs/reference/schemas/manifest.schema.json \
+            /tmp/manifests/minimal.json /tmp/manifests/delta.json /tmp/manifests/full.json
