@@ -13,8 +13,8 @@ _À compléter : en 2-3 phrases, ce que couvre cette section, pour qui elle est 
 | [deploy.md](deploy.md) | _à décrire_ |
 | [device.md](device.md) | _à décrire_ |
 | [fleet.md](fleet.md) | _à décrire_ |
-| [package.md](package.md) | _à décrire_ |
-| [sign.md](sign.md) | _à décrire_ |
+| [package.md](package.md) | Build and inspect `.otapkg` packages |
+| [sign.md](sign.md) | Generate keys, sign and verify packages |
 
 ## Conventions
 
