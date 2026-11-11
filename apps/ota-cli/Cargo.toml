@@ -10,5 +10,16 @@ authors.workspace = true
 keywords = ["ota", "cli"]
 categories = ["command-line-utilities"]
 
+[[bin]]
+name = "ota"
+path = "src/main.rs"
+
+[dependencies]
+ota-core = { path = "../../crates/ota-core" }
+ota-package = { path = "../../crates/ota-package" }
+ota-crypto = { path = "../../crates/ota-crypto" }
+clap.workspace = true
+anyhow.workspace = true
+
 [lints]
 workspace = true
