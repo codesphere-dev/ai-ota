@@ -10,5 +10,12 @@ authors.workspace = true
 keywords = ["ota", "embedded", "firmware"]
 categories = ["embedded"]
 
+[dependencies]
+thiserror.workspace = true
+
+[features]
+default = ["std"]
+std = []
+
 [lints]
 workspace = true

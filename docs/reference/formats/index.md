@@ -11,7 +11,7 @@ _À compléter : en 2-3 phrases, ce que couvre cette section, pour qui elle est 
 | --- | --- |
 | [log-format.md](log-format.md) | _à décrire_ |
 | [manifest-format.md](manifest-format.md) | _à décrire_ |
-| [package-format.md](package-format.md) | _à décrire_ |
+| [package-format.md](package-format.md) | `.otapkg` v1 binary specification |
 | [telemetry-format.md](telemetry-format.md) | _à décrire_ |
 
 ## Conventions
