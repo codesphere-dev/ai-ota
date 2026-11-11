@@ -10,5 +10,14 @@ authors.workspace = true
 keywords = ["ota", "crypto", "signature"]
 categories = ["cryptography", "embedded"]
 
+[dependencies]
+ota-core = { path = "../ota-core", default-features = false }
+ed25519-dalek = { workspace = true, features = ["signature"] }
+thiserror.workspace = true
+
+[features]
+default = ["std"]
+std = ["ota-core/std", "ed25519-dalek/std"]
+
 [lints]
 workspace = true
